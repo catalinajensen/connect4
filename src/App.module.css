@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  width: 800px;
+  height: 800px;
+  position: absolute;
+  left: 50%;
+  margin-left: -400px;
+  background-color: #f0f8ff;
+}

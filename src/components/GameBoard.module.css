@@ -1,0 +1,14 @@
+.boardGame {
+  background-color: #052f56;
+  padding: 10px;
+  border-radius: 3%;
+  border: 5px solid #000000;
+}
+
+.startButton {
+  margin: 10px 200px;
+  padding: 10px;
+  background-color: #052f56;
+  color: #ffffff;
+  cursor: pointer;
+}

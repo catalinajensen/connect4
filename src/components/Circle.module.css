@@ -1,0 +1,28 @@
+.gameCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  width: 70px;
+  cursor: pointer;
+}
+
+.circle {
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
+  background-color: #ffffff;
+  border: 5px solid #000000;
+}
+
+.player_1 {
+  background-color: #ff0000;
+  transition: background-color 0.5s;
+  border-style: double;
+}
+
+.player_2 {
+  background-color: #008000;
+  transition: background-color 0.5s;
+  border-style: double;
+}

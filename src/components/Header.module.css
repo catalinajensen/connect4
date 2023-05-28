@@ -1,0 +1,39 @@
+.header {
+  position: absolute;
+  border-radius: 3%;
+  left: 50%;
+  top: 50px;
+  height: 80px;
+  width: 300px;
+  margin-left: -155px;
+  border: 3px solid #000000;
+}
+
+.end {
+  background-color: #808080;
+  border: 3px solid #000000;
+  transition: transform 1s;
+  height: 100px;
+  transform: translate(0px, 250px);
+}
+
+.headerText {
+  font-size: 30px;
+  color: #ffffff;
+  width: 200px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.player_1 {
+  background-color: #ff0000;
+  transition: background-color 0.5s;
+}
+
+.player_2 {
+  background-color: #008000;
+  transition: background-color 0.5s;
+}
