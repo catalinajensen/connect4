@@ -26,3 +26,9 @@
   transition: background-color 0.5s;
   border-style: double;
 }
+
+.player_3 {
+  background-color: blue;
+  transition: background-color 0.5s;
+  border-style: double;
+}

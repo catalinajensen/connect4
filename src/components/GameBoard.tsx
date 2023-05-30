@@ -6,8 +6,11 @@ import Footer from './Footer';
 import Header from './Header';
 import styles from './GameBoard.module.css';
 
-const PLAYER_1 = 1;
-const PLAYER_2 = 2;
+// const PLAYER_1 = 1;
+// const PLAYER_2 = 2;
+// const PLAYER_3 = 3;
+
+// const players = [PLAYER_1, PLAYER_2, PLAYER_3];
 
 const initialGameBoard = [
   [null, null, null, null, null, null, null],
@@ -21,13 +24,24 @@ const initialGameBoard = [
 const GameBoard = () => {
   const [gameBoard, setGameBoard] =
     useState<(number | null)[][]>(initialGameBoard);
-  const [currentPlayer, setCurrentPlayer] = useState<number>(PLAYER_1);
+  const [players, setPlayers] = useState<number[]>([1, 2]);
+  const [currentPlayer, setCurrentPlayer] = useState<number>(players[0]);
   const [gameStatus, setGameStatus] = useState<string>(GAME_STATUS.PLAYING);
   const [winPlayer, setWinPlayer] = useState<number>(0);
+  const [numberOfPlayers, setNumberOfPlayers] = useState<number>(2);
+  const [prevState, setPrevState] = useState<{
+    board: (number | null)[][];
+    currentPlayer: number;
+    column: number;
+  }>({
+    board: [],
+    currentPlayer: 0,
+    column: 0
+  });
 
   const initGame = () => {
     setGameBoard(initialGameBoard);
-    setCurrentPlayer(PLAYER_1);
+    setCurrentPlayer(players[0]);
     setGameStatus(GAME_STATUS.PLAYING);
   };
 
@@ -39,6 +53,12 @@ const GameBoard = () => {
     if (board[0][column]) {
       return;
     }
+
+    setPrevState({
+      board,
+      currentPlayer,
+      column
+    });
 
     const temp_board = [
       [...board[0]],
@@ -58,7 +78,27 @@ const GameBoard = () => {
 
     setGameBoard(temp_board);
 
-    setCurrentPlayer(currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1);
+    const currentPlayerIndex = players.indexOf(currentPlayer);
+
+    // console.info(currentPlayerIndex);
+
+    let nextPlayer = players[currentPlayerIndex + 1];
+
+    if (currentPlayerIndex === players.length - 1) {
+      nextPlayer = players[0];
+    }
+
+    setCurrentPlayer(nextPlayer);
+  };
+
+  const goPrevState = () => {
+    console.info(prevState);
+
+    updateBoard(prevState.board, prevState.currentPlayer, prevState.column);
+
+    setCurrentPlayer(prevState.currentPlayer);
+
+    console.info(gameBoard);
   };
 
   const clickCircle = (column: number): void => {
@@ -70,11 +110,26 @@ const GameBoard = () => {
   }, []);
 
   useEffect(() => {
+    if (numberOfPlayers) {
+      let players = [];
+
+      for (let i = 0; i < numberOfPlayers; i++) {
+        players.push(i + 1);
+      }
+
+      setPlayers([...players]);
+    }
+  }, [numberOfPlayers]);
+
+  useEffect(() => {
     const result = isWinnerOrDraw(gameBoard);
+
+    console.info('result', result);
 
     switch (result) {
       case 1:
       case 2:
+      case 3:
         setGameStatus(GAME_STATUS.WIN);
         setWinPlayer(result);
         break;
@@ -110,6 +165,22 @@ const GameBoard = () => {
           ))}
         </tbody>
       </table>
+      <input
+        type="number"
+        placeholder="min 2"
+        onChange={(e) => {
+          console.info(e.target.value);
+
+          setNumberOfPlayers(+e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          goPrevState();
+        }}
+      >
+        Undo
+      </button>
       {gameStatus !== GAME_STATUS.PLAYING && (
         <Footer onClickNewGame={initGame} />
       )}
